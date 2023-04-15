@@ -1,40 +1,48 @@
 <script>
-  import Message from "./Message.svelte";
-  import totp from "totp-generator";
-  import Code from "./code/Code.svelte";
-  import {message} from "../stores.js";
+    import Message from "./Message.svelte";
+    import totp from "totp-generator";
+    import Code from "./code/Code.svelte";
+    import {message, timer} from "../stores.js";
+    import {getSeconds} from "../utils.js";
+    import {onDestroy} from "svelte";
 
-  const token = totp("");
+    const secret = "";
 
-  const codes = [
-      generateCode("Bitfinex", token),
-      generateCode("Twitter", "123456"),
-      generateCode("Facebook", "1234567"),
-      generateCode("Linkedin", "12345678"),
-      generateCode("Instagram", "123456789"),
-      generateCode("Youtube", "1234567890")
-  ];
+    let codes = updatedCodes();
 
-  function generateCode(name, value) {
-    return {name, value};
-  }
+    let unsubscribe = timer.subscribe(time => {
+        if (getSeconds(time) % 30 === 0) {
+            codes = updatedCodes();
+        }
+    });
 
-  function copy() {
-    // message.set("Copied to clipboard!");
-    setTimeout(() => {
-      // message.set("");
-    }, 2000);
-  }
+    onDestroy(unsubscribe);
+
+    function updatedCodes() {
+        message.set("updated!");
+        return new Map([
+            [1, generateCode("Bitfinex", secret)],
+            [2, generateCode("Twitter", secret)],
+            [3, generateCode("Facebook", secret)],
+            [4, generateCode("Linkedin", secret)],
+            [5, generateCode("Instagram", secret)],
+            [6, generateCode("Youtube", secret)]
+        ]);
+    }
+
+    function generateCode(name, secret) {
+        return {name, value: totp(secret)};
+    }
 </script>
 
 <div class="code-list">
-  {#each codes as code}
-    <Code name={code.name} value={code.value}/>
-  {/each}
+    {#each [...codes] as [id, code]}
+        <Code name={code.name} value={code.value}/>
+    {/each}
 
-  {#if $message}
-    <Message/>
-  {/if}
+    {#if $message}
+        <Message/>
+    {/if}
 </div>
 
 <style lang="scss">
