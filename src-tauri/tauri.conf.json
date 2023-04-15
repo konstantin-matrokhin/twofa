@@ -28,7 +28,7 @@
         "removeFile": true,
         "renameFile": true,
         "exists": true,
-        "scope": ["**/*", "*"]
+        "scope": ["$APP/**/*"]
       },
       "path": {
         "all": true
@@ -44,8 +44,7 @@
         "icons/icon.ico"
       ],
       "identifier": "ru.kmatrokhin.twofa",
-      "targets": "all",
-      "resources": ["config/accounts.json"]
+      "targets": "all"
     },
     "security": {
       "csp": null
