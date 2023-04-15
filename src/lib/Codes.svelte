@@ -1,10 +1,13 @@
 <script>
   import Message from "./Message.svelte";
+  import totp from "totp-generator";
+  import Code from "./code/Code.svelte";
+  import {message} from "../stores.js";
 
-  let showMessage = false;
+  const token = totp("");
 
   const codes = [
-      generateCode("Github", "12345"),
+      generateCode("Bitfinex", token),
       generateCode("Twitter", "123456"),
       generateCode("Facebook", "1234567"),
       generateCode("Linkedin", "12345678"),
@@ -17,22 +20,20 @@
   }
 
   function copy() {
-    showMessage = true;
+    // message.set("Copied to clipboard!");
     setTimeout(() => {
-      showMessage = false;
+      // message.set("");
     }, 2000);
   }
 </script>
 
 <div class="code-list">
   {#each codes as code}
-    <div class="code" on:click={copy}>
-      <div class="code__name">{code.name}</div>
-      <div class="code__value">{code.value}</div>
-    </div>
+    <Code name={code.name} value={code.value}/>
   {/each}
-  {#if showMessage}
-    <Message text="Copied!"/>
+
+  {#if $message}
+    <Message/>
   {/if}
 </div>
 
@@ -43,29 +44,5 @@
     flex-wrap: nowrap;
     justify-content: start;
     align-items: stretch;
-  }
-
-  .code {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: start;
-    margin: 5px 0;
-    color: #f6f6f6;
-    background-color: lightslategray;
-    font-size: 18px;
-    padding: 5px;
-    cursor: pointer;
-    pointer-events: bounding-box;
-    -webkit-user-select: none;
-
-    &__name {
-      -webkit-user-select: none;
-    }
-
-    &__value {
-      -webkit-user-select: none;
-    }
   }
 </style>

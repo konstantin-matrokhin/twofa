@@ -1,8 +1,8 @@
 <script>
-    export let text;
+    import {message} from "../stores.js"
 </script>
 
-<div class="message">{text}</div>
+<div class="message">{$message}</div>
 
 <style>
     .message {
