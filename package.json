@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "tauri": "tauri dev"
+    "tauri": "tauri dev",
+    "tb-m1": "tauri build --target aarch64-apple-darwin"
   },
   "dependencies": {
     "@tauri-apps/api": "^1.2.0",

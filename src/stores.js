@@ -4,13 +4,11 @@ function createMessage() {
     const {subscribe, set, update} = writable("");
     return {
         subscribe,
+        update,
         set: (value) => {
-            console.log(value);
             set(value);
             setTimeout(() => set(""), 2000);
         },
-        update,
-        clear: () => set("")
     };
 }
 

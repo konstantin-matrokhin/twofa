@@ -12,10 +12,26 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false,
+      "all": true,
       "shell": {
         "all": false,
         "open": true
+      },
+      "fs": {
+        "all": true,
+        "readFile": true,
+        "writeFile": true,
+        "readDir": true,
+        "copyFile": true,
+        "createDir": true,
+        "removeDir": true,
+        "removeFile": true,
+        "renameFile": true,
+        "exists": true,
+        "scope": ["**/*", "*"]
+      },
+      "path": {
+        "all": true
       }
     },
     "bundle": {
@@ -27,8 +43,9 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
-      "targets": "all"
+      "identifier": "ru.kmatrokhin.twofa",
+      "targets": "all",
+      "resources": ["config/accounts.json"]
     },
     "security": {
       "csp": null

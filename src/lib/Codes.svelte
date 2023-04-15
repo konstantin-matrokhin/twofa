@@ -3,36 +3,33 @@
     import totp from "totp-generator";
     import Code from "./code/Code.svelte";
     import {message, timer} from "../stores.js";
-    import {getSeconds} from "../utils.js";
     import {onDestroy} from "svelte";
 
-    const secret = "";
+    const secret = "jqsdm5ycfnhuwmry";
 
     let codes = updatedCodes();
 
-    let unsubscribe = timer.subscribe(time => {
-        if (getSeconds(time) % 30 === 0) {
-            codes = updatedCodes();
-        }
+    let unsubscribe = timer.subscribe(() => {
+        codes = updatedCodes();
     });
 
-    onDestroy(unsubscribe);
-
     function updatedCodes() {
-        message.set("updated!");
         return new Map([
-            [1, generateCode("Bitfinex", secret)],
-            [2, generateCode("Twitter", secret)],
-            [3, generateCode("Facebook", secret)],
-            [4, generateCode("Linkedin", secret)],
-            [5, generateCode("Instagram", secret)],
-            [6, generateCode("Youtube", secret)]
+            [1, generateCode("Bitfinex", "test@localhost", secret)],
+            [2, generateCode("Twitter", "test@localhost", secret)],
+            [3, generateCode("Facebook", "test@localhost", secret)],
+            [4, generateCode("Linkedin", "test@localhost", secret)],
+            [5, generateCode("Instagram", "test@localhost", secret)],
+            [6, generateCode("Youtube", "test@localhost", secret)]
         ]);
     }
 
-    function generateCode(name, secret) {
-        return {name, value: totp(secret)};
+    function generateCode(name, account, secret) {
+        let value = totp(secret);
+        return {name, account, value};
     }
+
+    onDestroy(unsubscribe);
 </script>
 
 <div class="code-list">

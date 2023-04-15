@@ -1,10 +1,8 @@
 <script>
     import {timer} from "../../stores.js";
-    import {getSeconds} from "../../utils.js";
-
-    export let secondsRemaining = 0;
+    import {getSecondsRemaining} from "../../utils.js";
 </script>
 
 <div>
-    <h2>{secondsRemaining} / {getSeconds($timer)}</h2>
+    <h2>{getSecondsRemaining($timer)}</h2>
 </div>
