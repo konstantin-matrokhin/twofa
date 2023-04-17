@@ -1,11 +1,16 @@
 <script>
     import Codes from './lib/Codes.svelte'
     import {loadAccounts} from "./utils.js";
+    import AddAccountButton from "./lib/AddAccountButton.svelte";
+    import {accounts} from "./stores.js";
 
-    loadAccounts().then(data => console.log(data));
+    loadAccounts().then(accs => {
+        accounts.set(accs);
+    })
 </script>
 
 <main class="container">
+    <AddAccountButton/>
     <Codes/>
 </main>
 

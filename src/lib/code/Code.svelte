@@ -2,26 +2,28 @@
     import {message} from "../../stores.js";
     import Countdown from "./Countdown.svelte";
 
-    export let name;
-    export let value;
+    export let issuer;
+    export let accountName;
+    export let code;
 
     function copy() {
         message.set("Copied!");
     }
 </script>
 
-<div class="code" on:click={copy}>
-    <div class="code__info">
-        <div class="code__name">{name}</div>
-        <div class="code__value">{value}</div>
+<div class="account" on:click={copy}>
+    <div class="account__info">
+        <div class="account__issuer">{issuer}</div>
+        <div class="account__account">{accountName}</div>
+        <div class="account__value">{code}</div>
     </div>
-    <div class="code__side">
+    <div class="account__side">
         <Countdown secondsRemaining=30 />
     </div>
 </div>
 
 <style lang="scss">
-  .code {
+  .account {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -44,14 +46,6 @@
 
     &__side {
       margin-left: auto;
-    }
-
-    &__name {
-      -webkit-user-select: none;
-    }
-
-    &__value {
-      -webkit-user-select: none;
     }
   }
 </style>

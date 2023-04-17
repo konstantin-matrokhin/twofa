@@ -1,4 +1,5 @@
-import {readable, writable} from "svelte/store";
+import {derived, readable, writable} from "svelte/store";
+import {generateCode} from "./utils.js";
 
 function createMessage() {
     const {subscribe, set, update} = writable("");
@@ -12,8 +13,6 @@ function createMessage() {
     };
 }
 
-export const message = createMessage();
-
 export const timer = readable(new Date(), (set) => {
     const interval = setInterval(() => {
        set(new Date());
@@ -21,6 +20,13 @@ export const timer = readable(new Date(), (set) => {
     return () => clearInterval(interval);
 })
 
-// export const codes = derived(timer, (timer) => {
-//     getSeconds(timer);
-// });
+export const message = createMessage();
+export const accounts =  writable(new Map());
+
+export const codes = derived([timer, accounts], ([$timer, $accounts]) => {
+    const codesMap = new Map();
+    $accounts.forEach((account, id) => {
+        codesMap.set(id, generateCode(account.secret));
+    })
+    return codesMap;
+})
